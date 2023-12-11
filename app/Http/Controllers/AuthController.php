@@ -35,11 +35,18 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request){
-        $request->user()->currentAccessToken()->delete();
+        $delete     = $request->user()->currentAccessToken()->delete();
+        if($delete){
+            return response()->json([
+                "status"    => "success",
+                "message"   => "Successfuly logout",
+            ]);
+        }
+
         return response()->json([
-            "status"    => "success",
-            "message"   => "Successfuly logout",
-        ]);
+            "status"    => "error",
+            "message"   => "Failed, please try again",
+        ],422);
     }
 
     public function register(Request $request){
@@ -61,7 +68,7 @@ class AuthController extends Controller
         return response()->json([
             "status"    => "error",
             "message"   => "Failed, please try again"
-        ]);
+        ],422);
     }
 
 }
