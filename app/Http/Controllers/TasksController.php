@@ -13,7 +13,7 @@ class TasksController extends Controller
         $user   = Auth::user();
 
         $tasklabel   = TaskLabel::find($tasklabel_id);
-        if($user->id !== $tasklabel->user_id){
+        if(empty($tasklabel->user_id) || $user->id !== $tasklabel->user_id){
             return response()->json([]);
         }
 
@@ -37,7 +37,7 @@ class TasksController extends Controller
         $data->dueDate     = $request->input("dueDate").":00";
         
         $tasklabel   = TaskLabel::find($data->tasklabel_id);
-        if($user->id !== $tasklabel->user_id){
+        if(empty($tasklabel->user_id) || $user->id !== $tasklabel->user_id){
             return response()->json([
                 "status"    => "error",
                 "message"   => "Failed, please try again"
@@ -67,12 +67,19 @@ class TasksController extends Controller
         $user   = Auth::user();
 
         $data   = Tasks::find($id);
+        if(empty($data)){
+            return response()->json([
+                "status"    => "error",
+                "message"   => "Data not found"
+            ],422);
+        }
+
         $data->title     = $request->input("title");
         $data->description     = $request->input("description");
         $data->dueDate     = $request->input("dueDate").":00";
 
         $tasklabel   = TaskLabel::find($data->tasklabel_id);
-        if($user->id !== $tasklabel->user_id){
+        if(empty($tasklabel->user_id) || $user->id !== $tasklabel->user_id){
             return response()->json([
                 "status"    => "error",
                 "message"   => "Failed, please try again"
@@ -97,9 +104,15 @@ class TasksController extends Controller
         $user   = Auth::user();
 
         $data   = Tasks::find($id);
+        if(empty($data)){
+            return response()->json([
+                "status"    => "error",
+                "message"   => "Data not found"
+            ],422);
+        }
 
         $tasklabel   = TaskLabel::find($data->tasklabel_id);
-        if($user->id !== $tasklabel->user_id){
+        if(empty($tasklabel->user_id) || $user->id !== $tasklabel->user_id){
             return response()->json([
                 "status"    => "error",
                 "message"   => "Failed, please try again"

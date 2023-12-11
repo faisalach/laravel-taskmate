@@ -44,6 +44,12 @@ class TaskLabelController extends Controller
         $user   = Auth::user();
 
         $data   = TaskLabel::find($id);
+        if(empty($data)){
+            return response()->json([
+                "status"    => "error",
+                "message"   => "Data not found"
+            ],422);
+        }
         $data->name     = $request->input("name");
 
         if($user->id !== $data->user_id){
@@ -71,6 +77,12 @@ class TaskLabelController extends Controller
         $user   = Auth::user();
 
         $data   = TaskLabel::find($id);
+        if(empty($data)){
+            return response()->json([
+                "status"    => "error",
+                "message"   => "Data not found"
+            ],422);
+        }
 
         if($user->id !== $data->user_id){
             return response()->json([
