@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string("title");
             $table->text("description");
             $table->timestamp("dueDate")->nullable();
-            $table->timestamp("createdAt")->useCurrent();
-            $table->timestamp("updatedAt")->useCurrent()->useCurrentOnUpdate();
+            $table->timestamp("created_at")->useCurrent();
+            $table->timestamp("updated_at")->useCurrent()->useCurrentOnUpdate();
             $table->foreign("tasklabel_id")->references("id")->on("task_label")->onDelete("cascade");
         });
     }
