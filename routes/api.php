@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TaskLabelController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,10 +16,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::post("/login",[AuthController::class,"authenticate"]);
+Route::post("/register",[AuthController::class,"register"]);
+
 Route::group(["middleware" => "auth:sanctum"],function(){
     Route::get("/user",function (Request $request) {
         return $request->user();
     });
-
     Route::get("/logout",[AuthController::class,"logout"]);
+
+    Route::get("/tasklabel/get",[TaskLabelController::class,"get_all"]);
+    Route::post("/tasklabel/insert",[TaskLabelController::class,"insert"]);
+    Route::post("/tasklabel/update/{id}",[TaskLabelController::class,"update"]);
+    Route::post("/tasklabel/delete/{id}",[TaskLabelController::class,"delete"]);
 });
