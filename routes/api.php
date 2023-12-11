@@ -28,4 +28,9 @@ Route::group(["middleware" => "auth:sanctum"],function(){
     Route::post("/tasklabel/insert",[TaskLabelController::class,"insert"]);
     Route::post("/tasklabel/update/{id}",[TaskLabelController::class,"update"]);
     Route::post("/tasklabel/delete/{id}",[TaskLabelController::class,"delete"]);
+
+    Route::get("/tasks/get/{tasklabel_id}",[TaskLabelController::class,"get_all"]);
+    Route::post("/tasks/insert",[TaskLabelController::class,"insert"]);
+    Route::post("/tasks/update/{id}",[TaskLabelController::class,"update"]);
+    Route::post("/tasks/delete/{id}",[TaskLabelController::class,"delete"]);
 });
