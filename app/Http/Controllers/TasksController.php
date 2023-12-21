@@ -20,6 +20,17 @@ class TasksController extends Controller
         return Tasks::where("tasklabel_id",$tasklabel_id)->get();
     }
 
+    public function get_by_id($id){
+        $user   = Auth::user();
+
+        $task   = Tasks::where("id",$id)->first();
+        $tasklabel   = TaskLabel::find($task->tasklabel_id);
+        if(empty($tasklabel->user_id) || $user->id !== $tasklabel->user_id){
+            return response()->json([]);
+        }
+        return $task;
+    }
+
     public function insert(Request $request){
         $request->validate([
             "tasklabel_id" => "required",
