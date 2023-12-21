@@ -26,6 +26,7 @@ Route::group(["middleware" => "auth:sanctum"],function(){
     Route::get("/logout",[AuthController::class,"logout"]);
 
     Route::get("/tasklabel/get",[TaskLabelController::class,"get_all"]);
+    Route::get("/tasklabel/get_by/{id}",[TaskLabelController::class,"get_by_id"]);
     Route::post("/tasklabel/insert",[TaskLabelController::class,"insert"]);
     Route::post("/tasklabel/update/{id}",[TaskLabelController::class,"update"]);
     Route::post("/tasklabel/delete/{id}",[TaskLabelController::class,"delete"]);

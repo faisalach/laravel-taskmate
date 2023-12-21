@@ -5,12 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\TaskLabel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TaskLabelController extends Controller
 {
     public function get_all(){
         $user   = Auth::user();
-        return TaskLabel::where("user_id",$user->id)->get();
+        return TaskLabel::select("*",DB::raw(" (SELECT COUNT(1) FROM tasks WHERE tasks.tasklabel_id = task_label.id) as count "))
+        ->where("user_id",$user->id)
+        ->get();
+    }
+
+    public function get_by_id($id){
+        $user   = Auth::user();
+        return TaskLabel::where("user_id",$user->id)
+        ->where("id",$id)
+        ->first();
     }
 
     public function insert(Request $request){
