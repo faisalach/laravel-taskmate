@@ -59,10 +59,16 @@ class AuthController extends Controller
         $data->email     = $request->input("email");
         $data->password     = Hash::make($request->input("password"));
         if($data->save()){
-            return response()->json([
-                "status"    => "success",
-                "message"   => "Successfuly register"
-            ]);
+            if (Auth::attempt(["email" => $data->email, "password" => $data->password])) {
+                $user   = Auth::user();
+                $token  = $user->createToken("token")->plainTextToken;
+     
+                return response()->json([
+                    "status"    => "success",
+                    "message"   => "Successfuly Register",
+                    "token"     => $token
+                ]);
+            }
         }
         
         return response()->json([
