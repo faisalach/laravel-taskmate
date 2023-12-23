@@ -15,19 +15,19 @@ class AuthController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
- 
+
         if (Auth::attempt($credentials)) {
 
             $user   = Auth::user();
 			$token  = $user->createToken("token")->plainTextToken;
- 
+
             return response()->json([
                 "status"    => "success",
                 "message"   => "Successfuly Login",
                 "token"     => $token
             ]);
         }
- 
+
         return response()->json([
             "status"    => "error",
             "message"   => "Incorrect email / password",
@@ -51,7 +51,7 @@ class AuthController extends Controller
 
     public function register(Request $request){
         $request->validate([
-            "emmil"  => "required|unique:users,email",
+            "email"  => "required|unique:users,email",
             "password" => "required|min:8|max:32",
         ]);
 
@@ -62,7 +62,7 @@ class AuthController extends Controller
             if (Auth::attempt(["email" => $data->email, "password" => $data->password])) {
                 $user   = Auth::user();
                 $token  = $user->createToken("token")->plainTextToken;
-     
+
                 return response()->json([
                     "status"    => "success",
                     "message"   => "Successfuly Register",
@@ -70,7 +70,7 @@ class AuthController extends Controller
                 ]);
             }
         }
-        
+
         return response()->json([
             "status"    => "error",
             "message"   => "Failed, please try again"
