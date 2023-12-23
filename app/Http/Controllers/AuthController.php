@@ -59,7 +59,7 @@ class AuthController extends Controller
         $data->email     = $request->input("email");
         $data->password     = Hash::make($request->input("password"));
         if($data->save()){
-            if (Auth::attempt(["email" => $data->email, "password" => $data->password])) {
+            if (Auth::attempt(["email" => $request->input("email"), "password" => $request->input("password")])) {
                 $user   = Auth::user();
                 $token  = $user->createToken("token")->plainTextToken;
 
@@ -70,6 +70,8 @@ class AuthController extends Controller
                 ]);
             }
         }
+
+        User::find($data->id)->delete();
 
         return response()->json([
             "status"    => "error",
